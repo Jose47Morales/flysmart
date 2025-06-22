@@ -3,7 +3,7 @@ echo Compilando FlySmart...
 
 set COMPILER=g++
 
-set SOURCES=src\main.cpp src\Aeropuerto.cpp src\Vuelo.cpp
+set SOURCES=src\main.cpp src\Aeropuerto.cpp src\Vuelo.cpp src\GrafoDeRutas.cpp
 
 set INCLUDE=-Iinclude
 
