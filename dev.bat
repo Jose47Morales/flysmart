@@ -1,7 +1,7 @@
 @echo off
 
 set COMPILER=g++
-set SOURCES=src\main.cpp src\Aeropuerto.cpp src\Vuelo.cpp src\GrafoDeRutas.cpp
+set SOURCES=src\main.cpp src\Aeropuerto.cpp src\Vuelo.cpp src\GrafoDeRutas.cpp src\Dijkstra.cpp
 set INCLUDE=-Iinclude
 set OUTPUT=flysmart.exe
 set FLAGS=-Wall -std=c++17
