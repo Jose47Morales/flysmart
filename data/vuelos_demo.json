@@ -1,1 +1,30 @@
+{
+  "aeropuertos": [
+    { "codigo": "BOG", "nombre": "El Dorado", "ciudad": "Bogotá", "pais": "Colombia" },
+    { "codigo": "MDE", "nombre": "José María Córdova", "ciudad": "Medellín", "pais": "Colombia" },
+    { "codigo": "CTG", "nombre": "Rafael Núñez", "ciudad": "Cartagena", "pais": "Colombia" },
+    { "codigo": "CUC", "nombre": "Camilo Daza", "ciudad": "Cúcuta", "pais": "Colombia" },
+    { "codigo": "CLO", "nombre": "Alfonso Bonilla Aragón", "ciudad": "Cali", "pais": "Colombia" },
+    { "codigo": "SMR", "nombre": "Simón Bolívar", "ciudad": "Santa Marta", "pais": "Colombia" },
+    { "codigo": "BAQ", "nombre": "Ernesto Cortissoz", "ciudad": "Barranquilla", "pais": "Colombia" },
+    { "codigo": "PEI", "nombre": "Matecaña", "ciudad": "Pereira", "pais": "Colombia" }
+  ],
+  "vuelos": [
+    { "origen": "BOG", "destino": "MDE", "precio": 350000, "duracion": 1.2, "escalas": 0 },
+    { "origen": "BOG", "destino": "CTG", "precio": 500000, "duracion": 1.5, "escalas": 1 },
+    { "origen": "BOG", "destino": "CLO", "precio": 320000, "duracion": 1.1, "escalas": 0 },
+    { "origen": "MDE", "destino": "CTG", "precio": 200000, "duracion": 1.0, "escalas": 0 },
+    { "origen": "MDE", "destino": "CUC", "precio": 300000, "duracion": 1.1, "escalas": 0 },
+    { "origen": "CTG", "destino": "SMR", "precio": 120000, "duracion": 0.6, "escalas": 0 },
+    { "origen": "CLO", "destino": "PEI", "precio": 150000, "duracion": 0.8, "escalas": 0 },
+    { "origen": "CLO", "destino": "MDE", "precio": 270000, "duracion": 1.0, "escalas": 0 },
+    { "origen": "SMR", "destino": "BAQ", "precio": 90000, "duracion": 0.4, "escalas": 0 },
+    { "origen": "BAQ", "destino": "CTG", "precio": 100000, "duracion": 0.5, "escalas": 0 },
+    { "origen": "PEI", "destino": "MDE", "precio": 180000, "duracion": 0.7, "escalas": 0 },
+    { "origen": "CUC", "destino": "BAQ", "precio": 400000, "duracion": 1.7, "escalas": 1 },
+    { "origen": "CUC", "destino": "BOG", "precio": 300000, "duracion": 1.2, "escalas": 0 },
+    { "origen": "SMR", "destino": "PEI", "precio": 230000, "duracion": 1.4, "escalas": 1 },
+    { "origen": "PEI", "destino": "BOG", "precio": 190000, "duracion": 0.9, "escalas": 0 }
+  ]
+}
 
