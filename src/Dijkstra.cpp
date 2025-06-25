@@ -43,7 +43,16 @@ void Dijkstra::encontrarRutaMasCorta(
             for (const auto& cod : actual.ruta) {
                 std::cout << cod << " -> ";
             }
-            std::cout << "FIN\nCosto total: " << actual.costoAcumulado << "\n";
+            std::cout << "FIN\n";
+            
+            if (criterio == "escalas"){
+                std::cout << "Total escalas: " << actual.ruta.size() - 1 << "\n";
+            } else if (criterio == "duracion") {
+                std::cout << "Total duración: " << actual.costoAcumulado << " horas\n";
+            } else {
+                std::cout << "Total precio: $" << actual.costoAcumulado << "\n";
+            }
+
             return;
         }
 
