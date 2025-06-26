@@ -123,7 +123,7 @@ docs/html/index.html
 O si el proyecto está publicado en GitHub Pages, puedes accederla desde:
 
 ```bash
-https://Jose47Morales.github.io/flysmart/docs/html/index.html
+[https://Jose47Morales.github.io/flysmart/docs/html/index.html](https://jose47morales.github.io/flysmart/)
 ```
 
 ---
