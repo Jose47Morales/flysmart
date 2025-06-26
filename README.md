@@ -93,6 +93,41 @@ Puedes consultar el progreso y tareas activas en la pestaña Projects.
 
 ---
 
+## Documentación
+
+La documentación técnica del backend ha sido generada con [Doxygen](https://www.doxygen.nl/).
+
+### ¿Qué incluye?
+- Diagramas de clases y relaciones.
+- Explicación de funciones y métodos.
+- Detalles de cada componente del backend.
+
+### Cómo generarla
+
+Si tienes Doxygen instalado, ejecuta:
+
+```bash
+doxygen Doxyfile
+```
+
+Esto generará la documentación en la carpeta **docs/html/**.
+
+### Acceso rápido
+
+Puedes abrir la documentación localmente con cualquier navegador:
+
+```bash
+docs/html/index.html
+```
+
+O si el proyecto está publicado en GitHub Pages, puedes accederla desde:
+
+```bash
+https://Jose47Morales.github.io/flysmart/docs/html/index.html
+```
+
+---
+
 ## Autor
 
 *Jose Morales*
