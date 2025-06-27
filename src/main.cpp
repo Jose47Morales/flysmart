@@ -7,13 +7,11 @@
 using json = nlohmann::json;
 using namespace std;
 
-int main(){
-    GrafoDeRutas grafo;
-
-    ifstream file("data/vuelos_demo.json");
+void cargarDatos(GrafoDeRutas& grafo, const string& rutaArchivo) {
+    ifstream file(rutaArchivo);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo de vuelos_demo.json\n";
-        return 1;
+        exit(1);
     }
 
     json data;
@@ -40,18 +38,53 @@ int main(){
 
         grafo.agregarVuelo(Vuelo(a_origen, a_destino, precio, duracion, escalas));
     }
+}
 
-    grafo.mostrarRedDeRutas();
-
+void mostrarMenu(GrafoDeRutas& grafo) {
     string origen, destino, criterio;
+
+    grafo.mostrarAeropuertosDisponibles();
+
     cout << "\nAeropuerto origen (IATA): ";
     cin >> origen;
+
     cout << "Aeropuerto destino (IATA): ";
     cin >> destino;
-    cout << "Criterio (precio, duracion, escalas): ";
-    cin >> criterio;
+
+    cout << "\nCriterio de búsqueda:\n";
+    cout << " 1. Precio\n";
+    cout << " 2. Duración\n";
+    cout << " 3. Escalas\n";
+    cout << "Seleccione una opción (1-3): ";
+    
+    int opcion;
+    cin >> opcion;
+
+    switch (opcion){
+        case 1: criterio = "precio"; break;
+        case 2: criterio = "duracion"; break;
+        case 3: criterio = "escalas"; break;
+        default:
+            cout << "Opción invalida\n";
+            return;
+    }
 
     Dijkstra::encontrarRutaMasCorta(grafo, origen, destino, criterio);
+}
 
+int main(){
+    GrafoDeRutas grafo;
+
+    cargarDatos(grafo, "data/vuelos_demo.json");
+
+    char repetir;
+    do {
+        mostrarMenu(grafo);
+        cout << "\n¿Deseas buscar otra ruta? (s/n): ";
+        cin >> repetir;
+    } while (tolower(repetir) == 's');
+
+    cout << "\nGracias por usar FlySmart\n";
+    
     return 0;
 }

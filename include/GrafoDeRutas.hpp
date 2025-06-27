@@ -34,6 +34,9 @@ class GrafoDeRutas {
 
         /// Muestra la red de rutas por consola.
         void mostrarRedDeRutas() const;
+
+        /// Muestra la lista de aeropuertos disponibles
+        void mostrarAeropuertosDisponibles() const;
 };
 
 #endif

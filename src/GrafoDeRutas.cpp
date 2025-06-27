@@ -36,3 +36,10 @@ void GrafoDeRutas::mostrarRedDeRutas() const {
         std::cout << std::endl;
     }
 }
+
+void GrafoDeRutas::mostrarAeropuertosDisponibles() const {
+    for (const auto& par : aeropuertos) {
+        const Aeropuerto* ap = par.second;
+        std::cout << "- " << ap->getCodigoIATA() << " (" << ap->getCiudad() << ")\n";
+    }
+}

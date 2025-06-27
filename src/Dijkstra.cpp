@@ -16,7 +16,7 @@ struct NodoRuta {
 
 float obtenerValorCriterio(const Vuelo& vuelo, const std::string& criterio) {
     if (criterio == "precio") return vuelo.getPrecio();
-    if (criterio == "durecion") return vuelo.getDuracion();
+    if (criterio == "duracion") return vuelo.getDuracion();
     if (criterio == "escalas") return static_cast<float>(vuelo.getEscalas());
     return vuelo.getPrecio();
 }
@@ -46,7 +46,9 @@ void Dijkstra::encontrarRutaMasCorta(
             std::cout << "FIN\n";
             
             if (criterio == "escalas"){
-                std::cout << "Total escalas: " << actual.ruta.size() - 1 << "\n";
+                int escalas = actual.ruta.size() - 2;
+                if (escalas < 0) escalas = 0;
+                std::cout << "Total escalas: " << escalas << "\n";
             } else if (criterio == "duracion") {
                 std::cout << "Total duración: " << actual.costoAcumulado << " horas\n";
             } else {
@@ -61,7 +63,7 @@ void Dijkstra::encontrarRutaMasCorta(
             float peso = obtenerValorCriterio(vuelo, criterio);
             float nuevCosto = actual.costoAcumulado + peso;
 
-            if (dist.find(vecino) == dist.end() || nuevCosto < dist[vecino]) {
+            if (!dist.count(vecino) || nuevCosto < dist.at(vecino)) {
                 dist[vecino] = nuevCosto;
                 predecesor[vecino] = actual.codigo;
                 std::vector<std::string> nuevaRuta = actual.ruta;
@@ -70,6 +72,11 @@ void Dijkstra::encontrarRutaMasCorta(
             }
         }
     }
+
+    if (dist.find(destino) == dist.end()) {
+            std::cout << "\nNo se encontró una ruta desde " << origen << " hasta " << destino << " según el criterio: " << criterio << ".\n";
+            return;
+        }
 
     std::cout << "No se encontró una ruta de " << origen << " a " << destino << "\n";
 }
