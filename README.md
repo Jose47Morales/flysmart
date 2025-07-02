@@ -6,73 +6,64 @@
 
 ---
 
-## Objetivo del proyecto
+## Requisitos
 
-> Ofrece soluciones innovadoras para ayudar a los viajeros en Colombia y en todo el mundo a tomar decisiones más inteligentes al comprar boletos y elegir rutas más económicas, rápidas o directas.
+### Python
+- Python 3.X
+- Flask
+- Flask-CORS
 
----
+Instalar dependencias:
 
-## Caracteristicas principales
+```bash
+pip install -r requirements.txt
+```
 
-- Optimización de rutas mediante el algoritmo Dijkstra
-- Visualización de vuelos disponibles en formato gráfico
-- Filtrar por duración del vuelo, precio o número de escalas
-- Interfaz intuitiva para facilitar la entrada de datos de vuelos
-- Historial de búsqueda y panel de administración (próximamente)
-- Estructura modular expandible
+### C++
+
+* Compilador **g++** (recomendado)
+* Biblioteca **nlohmann/json** (ya integrada en **include/**)
 
 --- 
 
-## Tecnologías utilizadas
+## Cómo ejecutar el proyecto
 
-| Componente | Tecnología |
-|------------|------------|
-| Algoritmo principal | C++ |
-| Backend API (próximamente) | Python (Flask) / Node.js |
-| Base de datos | MySQL / PostgreSQL |
-| Frontend (planeado)| HTML, CSS, JavaScript |
-| Control de versiones | Git + GitHub |
-| Gestión ágil | GitHub Projects (Scrum) |
-
----
-
-## Estructura del repositorio
-
-* ***/src*** -> Código fuente en C++
-* ***/include*** -> Archivos header
-* ***/data*** -> Datos de prueba (CSV, JSON)
-* ***/docs*** -> Documentación del sistema
-* ***README.md*** -> Este archivo
-
----
-
-## Cómo ejecutar el proyecto (versión consola)
-
-1. Clona el repositorio:
-
-```bash
-git clone https://github.com/Jose47Morales/flysmart.git
-cd flysmart
-```
-
-2. Compila el proyecto (ejemplo con g++)
-
+### 1. Compilar el ejecutable (si aún no existe)
 ```bash
 g++ src/*.cpp -o flysmart
 ```
+| Alternativamente puedes usar el script **build.bat** en Windows
 
-3. Ejecuta:
-
+### 2. Iniciar el backend
 ```bash
-./flysmart
+python app.py
 ```
+| Esto levantará el servidor en **http://localhost:5000**
+
+### 3. Ejecutar la interfaz web
+1. Abre el archivo frontend/index.html
+2. Utiliza la extensión Live Server (recomendada en VS Code)
+3. Interactúa con el formulario de búsqueda de vuelos
 
 ---
 
-## Datos de prueba
+## Funcionlidades principales
 
-El sistema incluye un conjunto de aeropuertos y vuelos simulados para pruebas, ubicados en **/data/vuelos_demo.json**
-Puedes modificar o ampliar estos datos para probar nuevas rutas.
+* Generación y crga dinámica de rutas desde el archivo JSON **(data/vuelos_demo.json)**
+* Ejecución del algoritmo de Dijkstra con criterio ajustable:
+  * precio
+  * duracion
+  * escalas
+* Visualización de la mejor ruta encontrada
+* Comunicación entre el backend Python <-> C++ ejecutable
+* Interfaz clara, extensible a producción
+
+---
+
+## Considerciones
+
+* El archivo **flysmart.exe** debe permanecer en la raíz del proyecto para que **app.py** funcione correctamente.
+* **data/vuelos_demo.json** contiene los vuelos entre aeropuertos y puede modificarse o extenderse según se requiera.
 
 ---
 
@@ -81,8 +72,8 @@ Puedes modificar o ampliar estos datos para probar nuevas rutas.
 * ✅ Diseño de base de datos
 * ✅ Modelo de clases
 * ✅ Implementación de algoritmo
-* 🔄 Integración con frontend
-* 🔄 Desarrollo del backend API
+* ✅ Integración con frontend
+* ✅ Desarrollo del backend API
 * 🔄 Interfaz gráfica completa
 
 ---
@@ -122,7 +113,7 @@ docs/html/index.html
 
 O si el proyecto está publicado en GitHub Pages, puedes accederla desde:
 
-[https://Jose47Morales.github.io/flysmart/docs/html/index.html](https://jose47morales.github.io/flysmart/)
+[Documentación](https://jose47morales.github.io/flysmart/)
 
 ---
 
@@ -131,7 +122,7 @@ O si el proyecto está publicado en GitHub Pages, puedes accederla desde:
 *Jose Morales*
 * Desarrollador de software | Apasionado por la innovación y algoritmos aplicados
 
-* Contacto: josemoralesleon58@gmail.com - https://www.linkedin.com/in/jose-alberto-morales-leon-963935346/
+* Contacto: josemoralesleon58@gmail.com - [LinkedIn](https://www.linkedin.com/in/jose-alberto-morales-leon-963935346/)
 
 ---
 
