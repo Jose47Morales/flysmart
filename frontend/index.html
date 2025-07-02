@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlySmart - Buscador de Rutas</title>
+    <link rel="shortcut icon" href="./resources/Logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">FlySmart - Encuentra tu ruta ideal</h1>
+      <div class="card p-4 shadow-sm">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="origen">Aeropuerto de origen:</label>
+            <select class="form-select" name="origen" id="origen">
+              <option value="BAQ">BAQ - Barranquilla</option>
+              <option value="BOG">BOG - Bogotá</option>
+              <option value="MDE">MDE - Medellín</option>
+              <option value="CLO">CLO - Cali</option>
+              <option value="CTG">CTG - Cartagena</option>
+              <option value="CUC">CUC - Cúcuta</option>
+              <option value="SMR">SMR - Santa Marta</option>
+              <option value="PEI">PEI - Perereira</option>
+            </select>
+          </div>
+          <div class="col">
+        <label for="destino">Aeropuerto de destino:</label>
+        <select class="form-select" name="destino" id="destino">
+          <option value="BAQ">BAQ - Barranquilla</option>
+          <option value="BOG">BOG - Bogotá</option>
+          <option value="MDE">MDE - Medellín</option>
+          <option value="CLO">CLO - Cali</option>
+          <option value="CTG">CTG - Cartagena</option>
+          <option value="CUC">CUC - Cúcuta</option>
+          <option value="SMR">SMR - Santa Marta</option>
+          <option value="PEI">PEI - Perereira</option>
+        </select>
+        </div>
+        <div class="col">
+        <label for="criterio">Criterio de optimización</label>
+        <select class="form-select" name="criterio" id="criterio">
+          <option value="precio">Menor Precio</option>
+          <option value="duracion">Menor duración</option>
+          <option value="escalas">Menor número de escalas</option>
+        </select>
+    </div>
+    <div class="col">
+        <button class="btn btn-primary w-100" onclick="buscarRuta()">Buscar ruta óptima</button>
+</div>
+        <div class="mt-4" id="resultado"></div>
+      </div>
+    </div>
+    <script>
+      async function buscarRuta() {
+        const origen = document.getElementById("origen").value;
+        const destino = document.getElementById("destino").value;
+        const criterio = document.getElementById("criterio").value;
+
+        const respuesta = await fetch("http://localhost:5000/buscar", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ origen, destino, criterio }),
+        });
+
+        const datos = await respuesta.json();
+        const divResultado = document.getElementById("resultado");
+        divResultado.innerHTML = "";
+
+        try {
+          const jsonResult = JSON.parse(datos.resultado);
+
+          if (jsonResult.error) {
+            divResultado.innerHTML = `<p style="color: red;">${jsonResult.error}</p>`;
+            return;
+          }
+
+          const ruta = jsonResult.ruta.join(" → ");
+          let detalle = "";
+
+          if (jsonResult.precio !== undefined) {
+            detalle = `Precio total: $${jsonResult.precio.toLocaleString()}`;
+          } else if (jsonResult.duracion !== undefined) {
+            detalle = `Duración total: ${jsonResult.duracion} horas`;
+          } else if (jsonResult.escalas !== undefined) {
+            detalle = `Número de escalas: ${jsonResult.escalas}`;
+          }
+
+          divResultado.innerHTML = `
+                    <div class=#card p-3 shadow-sm>
+                        <h5 class="text-success">Ruta óptima según <strong>${criterio}</strong>:</h3>
+                        <p class="mb-1">✈️ ${ruta}</p>
+                        <p class="fw-bold">${detalle}</p>
+                    </div>
+                    `;
+        } catch (e) {
+          divResultado.innerHTML = `<p style="color: red;">Respuesta invalida del servidor</p>`;
+        }
+      }
+    </script>
+  </body>
+</html>

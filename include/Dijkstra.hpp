@@ -2,6 +2,8 @@
 #define DIJKSTRA_HPP
 
 #include "GrafoDeRutas.hpp"
+#include "Vuelo.hpp"
+#include "json.hpp"
 #include <string>
 #include <vector>
 
@@ -23,6 +25,13 @@ class Dijkstra {
             const std::string& origen,
             const std::string& destino,
             const std::string& criterio = "precio"
+        );
+
+        static nlohmann::json encontrarRutaComoJSON(
+            const GrafoDeRutas& grafo,
+            const std::string& origen,
+            const std::string& destino,
+            const std::string& criterio
         );
 };
 

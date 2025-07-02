@@ -4,6 +4,8 @@
 #include <climits>
 #include <iostream>
 
+using json = nlohmann::json;
+
 struct NodoRuta {
     std::string codigo;
     float costoAcumulado;
@@ -21,7 +23,7 @@ float obtenerValorCriterio(const Vuelo& vuelo, const std::string& criterio) {
     return vuelo.getPrecio();
 }
 
-void Dijkstra::encontrarRutaMasCorta(
+json Dijkstra::encontrarRutaComoJSON(
     const GrafoDeRutas& grafo,
     const std::string& origen,
     const std::string& destino,
@@ -39,22 +41,18 @@ void Dijkstra::encontrarRutaMasCorta(
         pq.pop();
 
         if (actual.codigo == destino) {
-            std::cout << "Ruta más óptima según [" << criterio << "]:\n";
-            for (const auto& cod : actual.ruta) {
-                std::cout << cod << " -> ";
-            }
-            std::cout << "FIN\n";
-            
+            json resultado;
+            resultado["ruta"] = actual.ruta;
+
             if (criterio == "escalas"){
-                int escalas = actual.ruta.size() - 2;
-                if (escalas < 0) escalas = 0;
-                std::cout << "Total escalas: " << escalas << "\n";
+                resultado["escalas"] = actual.ruta.size() - 2;
             } else if (criterio == "duracion") {
-                std::cout << "Total duración: " << actual.costoAcumulado << " horas\n";
+                resultado["duracion"] = actual.costoAcumulado;
             } else {
-                std::cout << "Total precio: $" << actual.costoAcumulado << "\n";
+                resultado["precio"] = actual.costoAcumulado;
             }
 
+            std::cout << resultado.dump();
             return;
         }
 
@@ -73,10 +71,7 @@ void Dijkstra::encontrarRutaMasCorta(
         }
     }
 
-    if (dist.find(destino) == dist.end()) {
-            std::cout << "\nNo se encontró una ruta desde " << origen << " hasta " << destino << " según el criterio: " << criterio << ".\n";
-            return;
-        }
-
-    std::cout << "No se encontró una ruta de " << origen << " a " << destino << "\n";
+    json error;
+    error["error"] = "No se encontró una ruta desde " + origen + " hasta " + destino + " según el criterio: " + criterio;
+    std::cout << error.dump();
 }
