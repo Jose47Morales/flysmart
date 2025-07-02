@@ -1,0 +1,61 @@
+:root {
+  --azul-fly: #005f73;
+  --celeste-fly: #0a9396;
+  --amarillo-fly: #fbbf24;
+  --gris-fondo: #f5f5f5;
+  --negro-texto: #1e1e1e;
+}
+
+body {
+  background-color: var(--gris-fondo);
+  color: var(--negro-texto);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h1 {
+  color: var(--azul-fly);
+}
+
+.btn-primary {
+  background-color: var(--azul-fly);
+  border-color: var(--azul-fly);
+}
+
+.btn-primary:hover {
+  background-color: var(--celeste-fly);
+  border-color: var(--celeste-fly);
+}
+
+.card-title {
+  color: var(--azul-fly);
+}
+
+.list-group-item {
+  border-left: 5px solid var(--celeste-fly);
+}
+
+#mapa {
+    border: 2px solid var(--azul-fly);
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #005f73;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  pointer-events: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip.show {
+  opacity: 1;
+}
