@@ -45,6 +45,9 @@ python app.py
 2. Utiliza la extensión Live Server (recomendada en VS Code)
 3. Interactúa con el formulario de búsqueda de vuelos
 
+![image](https://github.com/user-attachments/assets/92db6691-82ab-462c-9818-1ac139ebc064)
+
+
 ---
 
 ## Funcionlidades principales
