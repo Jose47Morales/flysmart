@@ -4,7 +4,7 @@ set COMPILER=g++
 set SOURCES=src\main.cpp src\Aeropuerto.cpp src\Vuelo.cpp src\GrafoDeRutas.cpp src\Dijkstra.cpp
 set INCLUDE=-Iinclude
 set OUTPUT=flysmart.exe
-set FLAGS=-Wall -std=c++17
+set FLAGS=-Wall -std=c++17 -fexec-charset=UTF-8
 
 %COMPILER% %SOURCES% %INCLUDE% %FLAGS% -o %OUTPUT%
 

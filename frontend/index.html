@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="resources/style.css" />
+    <link rel="shortcut icon" href="resources/Logo.png">
   </head>
   <body class="bg-light text-dark">
     <div class="container py-5">
@@ -63,8 +64,10 @@
       </div>
 
       <div id="tooltip" class="tooltip hidden"></div>
-      <div id="loader" class="spinner" style="display: none;"></div>
-      <div id="resultado" class="row mt-5"></div>
+      <div id="loader" class="loader-overlay" style="display: none;">
+        <div class="spinner"></div>
+      </div>
+      <div id="resultado" class="row mt-5 resultado-container"></div>
       <div id="mapa" class="my-4 d-flex justify-content-center">
         <svg id="svgMapa" width="600" height="400" viewBox="0 0 600 400"></svg>
       </div>

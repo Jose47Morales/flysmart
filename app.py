@@ -15,17 +15,21 @@ def buscar_ruta():
     criterio = data.get('criterio')
 
     exe_path = os.path.abspath("flysmart.exe")
-
     json_path = os.path.abspath("data/vuelos_demo.json")
 
     try: 
         result = subprocess.run(
             [exe_path, origen, destino, criterio, json_path],
-            capture_output=True, text=True, check=True
+            capture_output=True, text=True, encoding="utf-8"
         )
-        return jsonify({"resultado": result.stdout})
+
+        resultado = json.loads(result.stdout)
+        return jsonify(resultado)
+    
     except subprocess.CalledProcessError as e:
         return jsonify({"error": "Error al ejecutar el algoritmo", "detalle": e.stderr}), 500
+    except json.JSONDecodeError:
+        return jsonify({"error": "La salida del ejecutable no es un JSON válido", "detalle": result.stdout}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

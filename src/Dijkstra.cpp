@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <climits>
 #include <iostream>
+#include <cmath>
 
 using json = nlohmann::json;
 
@@ -10,6 +11,9 @@ struct NodoRuta {
     std::string codigo;
     float costoAcumulado;
     std::vector<std::string> ruta;
+    float precioTotal;
+    float duracionTotal;
+    int escalasTotal;
 
     bool operator>(const NodoRuta& otro) const {
         return costoAcumulado > otro.costoAcumulado;
@@ -31,9 +35,8 @@ json Dijkstra::encontrarRutaComoJSON(
 ) {
     std::priority_queue<NodoRuta, std::vector<NodoRuta>, std::greater<NodoRuta>> pq;
     std::unordered_map<std::string, float> dist;
-    std::unordered_map<std::string, std::string> predecesor;
 
-    pq.push({origen, 0, {origen}});
+    pq.push({origen, 0, {origen}, 0, 0, 0});
     dist[origen] = 0;
 
     while (!pq.empty()) {
@@ -43,17 +46,27 @@ json Dijkstra::encontrarRutaComoJSON(
         if (actual.codigo == destino) {
             json resultado;
             resultado["ruta"] = actual.ruta;
+            resultado["precio"] = actual.precioTotal;
+            resultado["duracion"] = std::round(actual.duracionTotal * 100) / 100.0;
+            resultado["escalas"] = actual.ruta.size() - 2;
 
-            if (criterio == "escalas"){
-                resultado["escalas"] = actual.ruta.size() - 2;
-            } else if (criterio == "duracion") {
-                resultado["duracion"] = actual.costoAcumulado;
-            } else {
-                resultado["precio"] = actual.costoAcumulado;
+            json rutaExpandida = json::array();
+            for (const std::string& cod : actual.ruta) {
+                Aeropuerto* a = grafo.obtenerAeropuerto(cod);
+                if (a) {
+                    rutaExpandida.push_back({
+                        {"codigo", a->getCodigoIATA()},
+                        {"nombre", a->getNombre()},
+                        {"ciudad", a->getCiudad()},
+                        {"pais", a->getPais()},
+                    });
+                }
             }
 
-            std::cout << resultado.dump();
-            return;
+            resultado["ruta"] = rutaExpandida;
+            
+            std::cout << resultado.dump() << std::endl;
+            return resultado;
         }
 
         for (const auto& vuelo : grafo.obtenerVuelosDesde(actual.codigo)) {
@@ -61,12 +74,20 @@ json Dijkstra::encontrarRutaComoJSON(
             float peso = obtenerValorCriterio(vuelo, criterio);
             float nuevCosto = actual.costoAcumulado + peso;
 
-            if (!dist.count(vecino) || nuevCosto < dist.at(vecino)) {
+            if (!dist.count(vecino) || nuevCosto < dist[vecino]) {
                 dist[vecino] = nuevCosto;
-                predecesor[vecino] = actual.codigo;
+
                 std::vector<std::string> nuevaRuta = actual.ruta;
                 nuevaRuta.push_back(vecino);
-                pq.push({vecino, nuevCosto, nuevaRuta});
+
+                pq.push({
+                    vecino, 
+                    nuevCosto, 
+                    nuevaRuta,
+                    actual.precioTotal + vuelo.getPrecio(),
+                    actual.duracionTotal + vuelo.getDuracion(),
+                    actual.escalasTotal + vuelo.getEscalas(),
+                });
             }
         }
     }
@@ -74,4 +95,5 @@ json Dijkstra::encontrarRutaComoJSON(
     json error;
     error["error"] = "No se encontró una ruta desde " + origen + " hasta " + destino + " según el criterio: " + criterio;
     std::cout << error.dump();
+    return error;
 }

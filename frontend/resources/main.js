@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function buscarRuta() {
-  const origen = document.getElementById("origen").value.trim();
-  const destino = document.getElementById("destino").value.trim();
+  const origen = document.getElementById("origen").value;
+  const destino = document.getElementById("destino").value;
   const criterio = document.getElementById("criterio").value;
   const mensajeError = document.getElementById("mensaje-error");
   const resultado = document.getElementById("resultado");
@@ -35,6 +35,7 @@ async function buscarRuta() {
     mensajeError.textContent =
       "Por favor, ingresa códigos IATA válidos (3 letras mayúsculas).";
     mensajeError.style.display = "block";
+    loader.style.display = "none";
     return;
   }
 
@@ -44,12 +45,14 @@ async function buscarRuta() {
     mensajeError.textContent =
       "Por favor, ingresa aeropuertos válidos y diferentes.";
     mensajeError.style.display = "block";
+    loader.style.display = "none";
     return;
   }
 
   if (!["precio", "duracion", "escalas"].includes(criterio)) {
     mensajeError.textContent = "Selecciona un criterio válido.";
     mensajeError.style.display = "block";
+    loader.style.display = "none";
     return;
   }
 
@@ -61,35 +64,33 @@ async function buscarRuta() {
     });
 
     const datos = await respuesta.json();
+    console.log("Respuesta cruda del backend:", datos);
     const divResultado = document.getElementById("resultado");
     divResultado.innerHTML = "";
 
     loader.style.display = "none";
 
-    if (datos.resultado) {
-      const res = JSON.parse(datos.resultado);
-      const total =
-        criterio === "precio"
-          ? `$${res.precio}`
-          : criterio === "duracion"
-          ? `${res.duracion} h`
-          : `${res.escalas} escala(s)`;
+    if (datos) {
+      const res = datos;
 
-      divResultado.innerHTML = `
-            <div class="col-12 col-md-6 offset-md-3">
-              <div class="card shadow border-0">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Ruta óptima por ${criterio}</h5>
-                  <ul class="list-group list-group-flush mb-3">
-                    ${res.ruta
-                      .map((a) => `<li class="list-group-item">✈️ ${a}</li>`)
-                      .join("")}
-                  </ul>
-                  <p class="card-text"><strong>Total:</strong> ${total}</p>
-                </div>
-              </div>
-            </div>
-          `;
+      const { ruta, precio, duracion, escalas } = res;
+
+      if (!ruta || ruta.length < 2) {
+        mensajeError.textContent = "Ruta no encontrada.";
+        mensajeError.style.display = "block";
+        return;
+      }
+
+      let contenido = `<div class="card-ruta">
+                          <h3>Ruta óptima encontrada</h3>
+                          <p><span class="etiqueta">Origen:</span> ${ruta[0]["codigo"]} - ${ruta[0]["ciudad"]}, ${ruta[0]["pais"]}</p>
+                          <p><span class="etiqueta">Destino:</span> ${ruta[ruta.length - 1]["codigo"]} - ${ruta[ruta.length - 1]["ciudad"]}, ${ruta[ruta.length - 1]["pais"]}</p>
+                          <p><span class="etiqueta">Precio:</span> $${precio?.toLocaleString()}</p>
+                          <p><span class="etiqueta">Duración:</span> ${duracion} horas</p>
+                          <p><span class="etiqueta">Escalas:</span> ${escalas}</p>
+                        </div>
+                          `;
+      divResultado.innerHTML = contenido;
       const coordenadas = {
         BOG: [300, 200],
         MDE: [220, 250],
@@ -101,49 +102,17 @@ async function buscarRuta() {
         PEI: [270, 270],
       };
 
-      const infoAeropuertos = {
-        BOG: { nombre: "El Dorado", ciudad: "Bogotá", pais: "Colombia" },
-        MDE: {
-          nombre: "José María Córdova",
-          ciudad: "Medellín",
-          pais: "Colombia",
-        },
-        CTG: {
-          nombre: "Rafael Núñez",
-          ciudad: "Cartagena",
-          pais: "Colombia",
-        },
-        CUC: {
-          nombre: "Camilo Daza",
-          ciudad: "Cúcuta",
-          pais: "Colombia",
-        },
-        CLO: {
-          nombre: "Alfonso Bonilla Aragón",
-          ciudad: "Cali",
-          pais: "Colombia",
-        },
-        SMR: {
-          nombre: "Simón Bolívar",
-          ciudad: "Santa Marta",
-          pais: "Colombia",
-        },
-        BAQ: {
-          nombre: "Ernesto Cortissoz",
-          ciudad: "Barranquilla",
-          pais: "Colombia",
-        },
-        PEI: { nombre: "Matecaña", ciudad: "Pereira", pais: "Colombia" },
-      };
-
       const svg = document.getElementById("svgMapa");
       svg.innerHTML = "";
 
       let timeline = gsap.timeline();
 
       for (let i = 0; i < res.ruta.length - 1; i++) {
-        const [x1, y1] = coordenadas[res.ruta[i]];
-        const [x2, y2] = coordenadas[res.ruta[i + 1]];
+        const cod1 = res.ruta[i].codigo;
+        const cod2 = res.ruta[i + 1].codigo;
+        
+        const [x1, y1] = coordenadas[cod1];
+        const [x2, y2] = coordenadas[cod2];
 
         const linea = document.createElementNS(
           "http://www.w3.org/2000/svg",
@@ -170,9 +139,10 @@ async function buscarRuta() {
 
       const tooltip = document.getElementById("tooltip");
 
-      res.ruta.forEach((cod) => {
+      res.ruta.forEach((aeropuerto) => {
+        const cod = aeropuerto.codigo;
         const [x, y] = coordenadas[cod];
-        const { nombre, ciudad, pais } = infoAeropuertos[cod];
+        const { nombre, ciudad, pais } = aeropuerto;
 
         const circle = document.createElementNS(
           "http://www.w3.org/2000/svg",
