@@ -23,7 +23,7 @@ struct NodoRuta {
 float obtenerValorCriterio(const Vuelo& vuelo, const std::string& criterio) {
     if (criterio == "precio") return vuelo.getPrecio();
     if (criterio == "duracion") return vuelo.getDuracion();
-    if (criterio == "escalas") return static_cast<float>(vuelo.getEscalas());
+    if (criterio == "escalas") return 1.0f;
     return vuelo.getPrecio();
 }
 

@@ -1,4 +1,6 @@
 :root {
+  --verde-suave: #9AACAB;
+  --beige-suave: #C8AF93;
   --azul-fly: #005f73;
   --celeste-fly: #0a9396;
   --amarillo-fly: #fbbf24;
@@ -16,9 +18,67 @@ h1 {
   color: var(--azul-fly);
 }
 
+#flysmart-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--gris-fondo);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.flysmart-heading {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--verde-suave);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.flysmart-heading span {
+  color: var(--beige-suave);
+  margin-left: 0.4rem;
+}
+
+.flysmart-heading small {
+  display: block;
+  font-size: 1rem;
+  color: #555;
+  font-weight: normal;
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.flysmart-heading img {
+  width: 50px;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#flysmart-logo {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.flysmart-fade {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
 .btn-primary {
-  background-color: var(--azul-fly);
-  border-color: var(--azul-fly);
+  background-color: var(--verde-suave);
+  border-color: var(--verde-suave);
 }
 
 .btn-primary:hover {
@@ -44,7 +104,7 @@ h1 {
 
 .tooltip {
   position: absolute;
-  background-color: #005f73;
+  background-color: var(--verde-suave);
   color: #fff;
   padding: 8px 12px;
   border-radius: 6px;
@@ -81,14 +141,14 @@ input, select {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--verde-suave);
   font-size: 1rem;
   margin-bottom: 1rem;
   transition: border-color 0.3s;
 }
 
 input:focus, select:focus {
-  border-color: #0077ff;
+  border-color: var(--beige-suave);
   outline: none;
 }
 
@@ -118,7 +178,7 @@ button:hover {
 
 .spinner {
   border: 6px solid #e0e0e0;
-  border-top: 6px solid #00d1ff;
+  border-top: 6px solid var(--beige-suave);
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -151,7 +211,7 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   padding: 1.5rem;
-  border-left: 6px solid #00d1ff;
+  border-left: 6px solid var(--verde-suave);
   animation: fadeIn 0.5s ease-in;
 }
 
@@ -168,7 +228,7 @@ button:hover {
 
 .etiqueta {
   display: inline-block;
-  background-color: #00d1ff;
+  background-color: var(--verde-suave);
   color: white;
   padding: 0.25rem 0.6rem;
   border-radius: 5px;
