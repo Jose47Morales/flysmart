@@ -29,3 +29,6 @@
 # Executables
 *.out
 *.app
+
+# Entorn Variables
+.env

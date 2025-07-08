@@ -1,2 +1,6 @@
 flask
 flask-cors
+python-dotenv
+requests
+google-search-results
+geopy

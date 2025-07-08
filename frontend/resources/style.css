@@ -4,11 +4,13 @@
   --azul-fly: #005f73;
   --celeste-fly: #0a9396;
   --amarillo-fly: #fbbf24;
-  --gris-fondo: #f5f5f5;
+  --gris-fondo: #EDECE8;
   --negro-texto: #1e1e1e;
 }
 
 body {
+  width: 100%;
+  height: auto;
   background-color: var(--gris-fondo);
   color: var(--negro-texto);
   font-family: 'Segoe UI', sans-serif;
@@ -22,8 +24,8 @@ h1 {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: var(--gris-fondo);
   display: flex;
   justify-content: center;
@@ -94,14 +96,6 @@ h1 {
   border-left: 5px solid var(--celeste-fly);
 }
 
-#mapa {
-    border: 2px solid var(--azul-fly);
-    border-radius: 10px;
-    background-color: #fff;
-    padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 .tooltip {
   position: absolute;
   background-color: var(--verde-suave);
@@ -118,16 +112,6 @@ h1 {
 
 .tooltip.show {
   opacity: 1;
-}
-
-form {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
 }
 
 label {
@@ -236,6 +220,47 @@ button:hover {
   margin-right: 0.5rem;
 }
 
+.footer {
+  background-color: var(--beige-suave);
+  color: #fff;
+  font-size: 0.9rem;
+  border-top: 4px solid var(--verde-suave);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer .nombre-proyecto {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.footer .descripcion {
+  font-size: 0.95rem;
+  font-size: italic;
+  color: #f3f3f3;
+}
+
+.footer .autor {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.iconos-sociales a {
+  margin: 0 8px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.iconos-sociales img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.iconos-sociales a:hover {
+  transform: scale(1.1);
+}
+
 @keyframes girar {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -244,4 +269,39 @@ button:hover {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background-color: #3a3a3a;
+    border-top-color: #6c757d;
+    color: #e4e4e4;
+  }
+
+  .footer .descripcion {
+    color: #ccc;
+  }
+
+  .iconos-sociales img {
+    filter: invert(0.9);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer .descripcion {
+    font-size: 0.85rem;
+  }
+
+  .footer .autor {
+    font-size: 0.8rem;
+  }
+
+  .iconos-sociales {
+    gap: 0.5rem;
+  }
+
+  .iconos-sociales img {
+    width: 20px;
+    height: 20px;
+  }
 }

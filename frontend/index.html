@@ -11,11 +11,21 @@
     <link rel="stylesheet" href="resources/style.css" />
     <link rel="shortcut icon" href="resources/Logo.png" />
   </head>
-  <body class="bg-light text-dark">
+  <body class="text-dark">
     <div id="flysmart-animation" class="text-center my-5">
       <svg id="flysmart-logo" width="250" height="250" viewBox="0 0 250 250">
-        <path id="flightPath" d="M180,130 C10,180 110,190 190,160" fill="none" stroke="transparent" />
-        <image id="plane-behind" href="resources/plane.png" width="40" height="40" />
+        <path
+          id="flightPath"
+          d="M180,130 C10,180 110,190 190,160"
+          fill="none"
+          stroke="transparent"
+        />
+        <image
+          id="plane-behind"
+          href="resources/plane.png"
+          width="40"
+          height="40"
+        />
         <image
           id="coneImage"
           href="resources/cone.png"
@@ -24,75 +34,114 @@
           width="70"
           height="100"
         />
-        <image id="plane-front" href="resources/plane.png" width="40" height="40" visibility="hidden"/>
+        <image
+          id="plane-front"
+          href="resources/plane.png"
+          width="40"
+          height="40"
+          visibility="hidden"
+        />
       </svg>
     </div>
     <div class="container py-5">
       <h1 class="flysmart-heading text-center">
-        <img id="logo-target" src="resources/Icon.png" alt="FlySmart" /> 
+        <img id="logo-target" src="resources/Icon.png" alt="FlySmart" />
         <span>FlySmart</span>
         <small>Encuentra tu mejor ruta</small>
       </h1>
 
       <div class="card shadow p-4 flysmart-fade">
-        <form onsubmit="event.preventDefault(); buscarRuta();">
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <label for="origen" class="form-label"
-                >Aeropuerto Origen (IATA)</label
-              >
-              <input
-                type="text"
-                id="origen"
-                list="listaAeropuertos"
-                class="form-control"
-                placeholder="Ej: BAQ"
-                required
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="destino" class="form-label"
-                >Aeropuerto Destino (IATA)</label
-              >
-              <input
-                type="text"
-                id="destino"
-                list="listaAeropuertos"
-                class="form-control"
-                placeholder="Ej: CLO"
-                required
-              />
-            </div>
-            <datalist id="listaAeropuertos"></datalist>
-            <div class="col-md-4">
-              <label for="criterio" class="form-label"
-                >Criterio de búsqueda</label
-              >
-              <select id="criterio" class="form-select">
-                <option value="precio">Precio</option>
-                <option value="duracion">Duración</option>
-                <option value="escalas">Escalas</option>
-              </select>
-            </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="origen" class="form-label"
+              >Aeropuerto Origen (IATA)</label
+            >
+            <input
+              type="text"
+              id="origen"
+              list="listaAeropuertos"
+              class="form-control"
+              placeholder="Ej: BAQ"
+              required
+            />
           </div>
-          <div id="mensaje-error" class="error-message"></div>
-          <div class="text-end">
-            <button type="submit" class="btn btn-primary">Buscar Ruta</button>
+          <div class="col-md-4">
+            <label for="destino" class="form-label"
+              >Aeropuerto Destino (IATA)</label
+            >
+            <input
+              type="text"
+              id="destino"
+              list="listaAeropuertos"
+              class="form-control"
+              placeholder="Ej: CLO"
+              required
+            />
           </div>
-        </form>
+          <datalist id="listaAeropuertos"></datalist>
+          <div class="col-md-4">
+            <label for="fecha" class="form-label">Fecha de salida</label>
+            <input type="date" id="fecha" class="form-control" required />
+          </div>
+          <div class="col-md-4">
+            <label for="criterio" class="form-label"
+              >Criterio de búsqueda</label
+            >
+            <select id="criterio" class="form-select">
+              <option value="precio">Precio</option>
+              <option value="duracion">Duración</option>
+              <option value="escalas">Escalas</option>
+            </select>
+          </div>
+        </div>
+        <div id="mensaje-error" class="error-message"></div>
+        <div class="text-end">
+          <button type="button" class="btn btn-primary" onclick="buscarRuta()">
+            Buscar Ruta
+          </button>
+        </div>
       </div>
-
-      <div id="tooltip" class="tooltip hidden"></div>
       <div id="loader" class="loader-overlay" style="display: none">
         <div class="spinner"></div>
       </div>
       <div id="resultado" class="row mt-5 resultado-container"></div>
-      <div id="mapa" class="my-4 d-flex justify-content-center flysmart-fade">
-        <svg id="svgMapa" width="600" height="400" viewBox="0 0 600 400"></svg>
-      </div>
+      <div
+        id="globo"
+        class="my-4 d-flex justify-content-center flysmart-fade"
+      ></div>
     </div>
+    <footer class="footer mt-5 py-4 text-center flysmart-fade">
+      <div class="container">
+        <p class="nombre-proyecto">✈️ FlySmart</p>
+        <p class="descripcion">
+          Plataforma inteligente de optimización de rutas aéreas
+        </p>
+        <div class="iconos-sociales my-2">
+          <a
+            href="https://www.linkedin.com/in/jose-alberto-morales-leon-963935346/"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img src="resources/linkedin.svg" alt="LinkedIn" />
+          </a>
+          <a
+            href="https://github.com/Jose47Morales"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img src="resources/github.svg" alt="GitHub" />
+          </a>
+        </div>
+        <p class="autor">
+          © 2025 Jose47Morales. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
+    <script src="resources/animation.js"></script>
     <script src="resources/main.js"></script>
   </body>
 </html>

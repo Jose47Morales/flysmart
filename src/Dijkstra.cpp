@@ -4,6 +4,7 @@
 #include <climits>
 #include <iostream>
 #include <cmath>
+#include <set>
 
 using json = nlohmann::json;
 
@@ -33,6 +34,15 @@ json Dijkstra::encontrarRutaComoJSON(
     const std::string& destino,
     const std::string& criterio
 ) {
+    if (origen == destino) {
+        return json{{"error", "El aeropuerto de origen y destino no pueden ser iguales"}};
+    }
+
+    const std::set<std::string> criteriosValidos = {"precio", "duracion", "escalas"};
+    if (criteriosValidos.find(criterio) == criteriosValidos.end()) {
+        return json{{"error", "Criterio inválido. Usa 'precio', 'duracion' o 'escalas'"}};
+    }
+
     std::priority_queue<NodoRuta, std::vector<NodoRuta>, std::greater<NodoRuta>> pq;
     std::unordered_map<std::string, float> dist;
 
@@ -45,7 +55,6 @@ json Dijkstra::encontrarRutaComoJSON(
 
         if (actual.codigo == destino) {
             json resultado;
-            resultado["ruta"] = actual.ruta;
             resultado["precio"] = actual.precioTotal;
             resultado["duracion"] = std::round(actual.duracionTotal * 100) / 100.0;
             resultado["escalas"] = actual.ruta.size() - 2;
@@ -64,8 +73,6 @@ json Dijkstra::encontrarRutaComoJSON(
             }
 
             resultado["ruta"] = rutaExpandida;
-            
-            std::cout << resultado.dump() << std::endl;
             return resultado;
         }
 
@@ -92,8 +99,7 @@ json Dijkstra::encontrarRutaComoJSON(
         }
     }
 
-    json error;
-    error["error"] = "No se encontró una ruta desde " + origen + " hasta " + destino + " según el criterio: " + criterio;
-    std::cout << error.dump();
-    return error;
+    return json{
+        {"error", "No se encontró una ruta desde " + origen + " hasta " + destino + " según el criterio: " + criterio}
+    };
 }

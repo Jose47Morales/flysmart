@@ -11,9 +11,10 @@ using json = nlohmann::json;
 using namespace std;
 
 int main(int argc, char* argv[]){
-    #ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-    #endif
+#ifdef _WIN32
+SetConsoleOutputCP(CP_UTF8);
+#endif
+
     if (argc != 5){
         cerr << R"({"error": "Uso: ./flysmart <origen> <destino> <criterio> <archivo_json>"})" << endl;
         return 1;
@@ -30,18 +31,24 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    GrafoDeRutas grafo;
     json data;
-    file >> data;
-
+    try {
+        file >> data;
+    } catch (const std::exception& e) {
+        cerr << R"({"error": "Error al parsear el archivo JSON: )" << e.what() << R"("})" << endl;
+        return 1;
+    }
+    
+    GrafoDeRutas grafo;
     unordered_map<string, Aeropuerto*> mapaAeropuertos;
 
-    for (const auto& a : data["aeropuertos"]) {
+    try {
+        for (const auto& a : data["aeropuertos"]) {
         string cod = a["codigo"];
         auto* aeropuerto = new Aeropuerto(cod, a["nombre"], a["ciudad"], a["pais"]);
         mapaAeropuertos[cod] = aeropuerto;
         grafo.agregarAeropuerto(aeropuerto);
-    }
+        }
 
     for (const auto& v : data["vuelos"]) {
         string o = v["origen"];
@@ -54,9 +61,19 @@ int main(int argc, char* argv[]){
             mapaAeropuertos[d],
             precio, duracion, escalas
         ));
+        }
+    } catch (const std::exception& e) {
+        cerr << R"({"error": "Error al construir el grafo: )" << e.what() << R"("})" << endl;
+        return 1;
     }
-    
-    Dijkstra::encontrarRutaComoJSON(grafo, origen, destino, criterio);
-    
-    return 0;
+
+    json resultado = Dijkstra::encontrarRutaComoJSON(grafo, origen, destino, criterio);
+
+    if (resultado.contains("error")) {
+        cerr << resultado.dump() << endl;
+        return 1;
+    } else {
+        cout << resultado.dump() << endl;
+        return 0;
+    }
 }

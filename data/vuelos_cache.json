@@ -1,0 +1,44 @@
+{
+  "aeropuertos": [
+    {
+      "codigo": "MTR",
+      "nombre": "Los Garzones-Monteria International Airport",
+      "ciudad": "Montería",
+      "pais": "Colombia",
+      "lat": 8.6046053,
+      "lon": -75.9783203
+    },
+    {
+      "codigo": "CDG",
+      "nombre": "Paris Charles de Gaulle Airport",
+      "ciudad": "Paris",
+      "pais": "France",
+      "lat": 48.8588897,
+      "lon": 2.320041
+    },
+    {
+      "codigo": "LHR",
+      "nombre": "Heathrow Airport",
+      "ciudad": "London",
+      "pais": "United Kingdom",
+      "lat": 51.4893335,
+      "lon": -0.1440551
+    }
+  ],
+  "vuelos": [
+    {
+      "origen": "MTR",
+      "destino": "CDG",
+      "precio": 3678010,
+      "duracion": 11.416666666666666,
+      "escalas": 1
+    },
+    {
+      "origen": "CDG",
+      "destino": "LHR",
+      "precio": 926142,
+      "duracion": 3.0833333333333335,
+      "escalas": 1
+    }
+  ]
+}
