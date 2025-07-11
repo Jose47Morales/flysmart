@@ -1,0 +1,29 @@
+name: Build flysmart for Linux
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y build-essential cmake
+
+      - name: Build executable
+        run: |
+          mkdir -p build
+          g++ -std=c++17 -Iinclude src/*.cpp -o build/flysmart
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: flysmart-linux
+          path: build/flysmart
