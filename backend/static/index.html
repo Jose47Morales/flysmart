@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlySmart - Buscador de rutas</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/assets/Logo-D9tFDVff.png" />
+    <script type="module" crossorigin src="/assets/index-DvOT6jcd.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CTB-9NKS.css">
+  </head>
+  <body class="text-dark">
+    <div id="flysmart-animation" class="text-center my-5">
+      <svg id="flysmart-logo" width="250" height="250" viewBox="0 0 250 250">
+        <path
+          id="flightPath"
+          d="M180,130 C10,180 110,190 190,160"
+          fill="none"
+          stroke="transparent"
+        />
+        <image
+          id="plane-behind"
+          href="/assets/plane-D4VnYI2N.png"
+          width="40"
+          height="40"
+        />
+        <image
+          id="coneImage"
+          href="/assets/cone-XVDdpyl-.png"
+          x="90"
+          y="110"
+          width="70"
+          height="100"
+        />
+        <image
+          id="plane-front"
+          href="/assets/plane-D4VnYI2N.png"
+          width="40"
+          height="40"
+          visibility="hidden"
+        />
+      </svg>
+    </div>
+    <div class="container py-5">
+      <h1 class="flysmart-heading text-center">
+        <img id="logo-target" src="/assets/Icon-Dtbgd8Q_.png" alt="FlySmart" />
+        <span>FlySmart</span>
+        <small>Encuentra tu mejor ruta</small>
+      </h1>
+
+      <div class="card shadow p-4 flysmart-fade">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="origen" class="form-label"
+              >Aeropuerto Origen (IATA)</label
+            >
+            <input
+              type="text"
+              id="origen"
+              list="listaAeropuertos"
+              class="form-control"
+              placeholder="Ej: BAQ"
+              required
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="destino" class="form-label"
+              >Aeropuerto Destino (IATA)</label
+            >
+            <input
+              type="text"
+              id="destino"
+              list="listaAeropuertos"
+              class="form-control"
+              placeholder="Ej: CLO"
+              required
+            />
+          </div>
+          <datalist id="listaAeropuertos"></datalist>
+          <div class="col-md-4">
+            <label for="fecha" class="form-label">Fecha de salida</label>
+            <input type="date" id="fecha" class="form-control" required />
+          </div>
+          <div class="col-md-4">
+            <label for="criterio" class="form-label"
+              >Criterio de búsqueda</label
+            >
+            <select id="criterio" class="form-select">
+              <option value="precio">Precio</option>
+              <option value="duracion">Duración</option>
+              <option value="escalas">Escalas</option>
+            </select>
+          </div>
+        </div>
+        <div id="mensaje-error" class="error-message"></div>
+        <div class="text-end">
+          <button type="button" class="btn btn-primary" onclick="buscarRuta()">
+            Buscar Ruta
+          </button>
+        </div>
+      </div>
+      <div id="loader" class="loader-overlay" style="display: none">
+        <div class="spinner"></div>
+      </div>
+      <div id="resultado" class="row mt-5 resultado-container"></div>
+      <div
+        id="globo"
+        class="my-4 d-flex justify-content-center flysmart-fade"
+      ></div>
+    </div>
+    <footer class="footer mt-5 py-4 text-center flysmart-fade">
+      <div class="container">
+        <p class="nombre-proyecto">✈️ FlySmart</p>
+        <p class="descripcion">
+          Plataforma inteligente de optimización de rutas aéreas
+        </p>
+        <div class="iconos-sociales my-2">
+          <a
+            href="https://www.linkedin.com/in/jose-alberto-morales-leon-963935346/"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='iso-8859-1'?%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Generator:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20height='800px'%20width='800px'%20version='1.1'%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20382%20382'%20xml:space='preserve'%3e%3cpath%20style='fill:%230077B7;'%20d='M347.445,0H34.555C15.471,0,0,15.471,0,34.555v312.889C0,366.529,15.471,382,34.555,382h312.889%20C366.529,382,382,366.529,382,347.444V34.555C382,15.471,366.529,0,347.445,0z%20M118.207,329.844c0,5.554-4.502,10.056-10.056,10.056%20H65.345c-5.554,0-10.056-4.502-10.056-10.056V150.403c0-5.554,4.502-10.056,10.056-10.056h42.806%20c5.554,0,10.056,4.502,10.056,10.056V329.844z%20M86.748,123.432c-22.459,0-40.666-18.207-40.666-40.666S64.289,42.1,86.748,42.1%20s40.666,18.207,40.666,40.666S109.208,123.432,86.748,123.432z%20M341.91,330.654c0,5.106-4.14,9.246-9.246,9.246H286.73%20c-5.106,0-9.246-4.14-9.246-9.246v-84.168c0-12.556,3.683-55.021-32.813-55.021c-28.309,0-34.051,29.066-35.204,42.11v97.079%20c0,5.106-4.139,9.246-9.246,9.246h-44.426c-5.106,0-9.246-4.14-9.246-9.246V149.593c0-5.106,4.14-9.246,9.246-9.246h44.426%20c5.106,0,9.246,4.14,9.246,9.246v15.655c10.497-15.753,26.097-27.912,59.312-27.912c73.552,0,73.131,68.716,73.131,106.472%20L341.91,330.654L341.91,330.654z'/%3e%3c/svg%3e" alt="LinkedIn" />
+          </a>
+          <a
+            href="https://github.com/Jose47Morales"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'%20standalone='no'?%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Generator:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20width='800px'%20height='800px'%20viewBox='0%20-0.5%2048%2048'%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3ctitle%3eGithub-color%3c/title%3e%3cdesc%3eCreated%20with%20Sketch.%3c/desc%3e%3cdefs%3e%3c/defs%3e%3cg%20id='Icons'%20stroke='none'%20stroke-width='1'%20fill='none'%20fill-rule='evenodd'%3e%3cg%20id='Color-'%20transform='translate(-700.000000,%20-560.000000)'%20fill='%233E75C3'%3e%3cpath%20d='M723.9985,560%20C710.746,560%20700,570.787092%20700,584.096644%20C700,594.740671%20706.876,603.77183%20716.4145,606.958412%20C717.6145,607.179786%20718.0525,606.435849%20718.0525,605.797328%20C718.0525,605.225068%20718.0315,603.710086%20718.0195,601.699648%20C711.343,603.155898%20709.9345,598.469394%20709.9345,598.469394%20C708.844,595.686405%20707.2705,594.94548%20707.2705,594.94548%20C705.091,593.450075%20707.4355,593.480194%20707.4355,593.480194%20C709.843,593.650366%20711.1105,595.963499%20711.1105,595.963499%20C713.2525,599.645538%20716.728,598.58234%20718.096,597.964902%20C718.3135,596.407754%20718.9345,595.346062%20719.62,594.743683%20C714.2905,594.135281%20708.688,592.069123%20708.688,582.836167%20C708.688,580.205279%20709.6225,578.054788%20711.1585,576.369634%20C710.911,575.759726%20710.0875,573.311058%20711.3925,569.993458%20C711.3925,569.993458%20713.4085,569.345902%20717.9925,572.46321%20C719.908,571.928599%20721.96,571.662047%20724.0015,571.651505%20C726.04,571.662047%20728.0935,571.928599%20730.0105,572.46321%20C734.5915,569.345902%20736.603,569.993458%20736.603,569.993458%20C737.9125,573.311058%20737.089,575.759726%20736.8415,576.369634%20C738.3805,578.054788%20739.309,580.205279%20739.309,582.836167%20C739.309,592.091712%20733.6975,594.129257%20728.3515,594.725612%20C729.2125,595.469549%20729.9805,596.939353%20729.9805,599.18773%20C729.9805,602.408949%20729.9505,605.006706%20729.9505,605.797328%20C729.9505,606.441873%20730.3825,607.191834%20731.6005,606.9554%20C741.13,603.762794%20748,594.737659%20748,584.096644%20C748,570.787092%20737.254,560%20723.9985,560'%20id='Github'%3e%3c/path%3e%3c/g%3e%3c/g%3e%3c/svg%3e" alt="GitHub" />
+          </a>
+        </div>
+        <p class="autor">
+          © 2025 Jose47Morales. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+  </body>
+</html>

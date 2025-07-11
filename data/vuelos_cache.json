@@ -23,6 +23,30 @@
       "pais": "United Kingdom",
       "lat": 51.4893335,
       "lon": -0.1440551
+    },
+    {
+      "codigo": "JFK",
+      "nombre": "John F. Kennedy International Airport",
+      "ciudad": "New York",
+      "pais": "United States",
+      "lat": 40.7127281,
+      "lon": -74.0060152
+    },
+    {
+      "codigo": "NBO",
+      "nombre": "Jomo Kenyatta International Airport",
+      "ciudad": "Nairobi",
+      "pais": "Kenya",
+      "lat": -1.2832533,
+      "lon": 36.8172449
+    },
+    {
+      "codigo": "LIS",
+      "nombre": "Humberto Delgado Airport",
+      "ciudad": "Lisbon",
+      "pais": "Portugal",
+      "lat": 38.7077507,
+      "lon": -9.1365919
     }
   ],
   "vuelos": [
@@ -38,6 +62,20 @@
       "destino": "LHR",
       "precio": 926142,
       "duracion": 3.0833333333333335,
+      "escalas": 1
+    },
+    {
+      "origen": "MTR",
+      "destino": "JFK",
+      "precio": 1401720,
+      "duracion": 6.7,
+      "escalas": 1
+    },
+    {
+      "origen": "NBO",
+      "destino": "LIS",
+      "precio": 4140410,
+      "duracion": 13.0,
       "escalas": 1
     }
   ]

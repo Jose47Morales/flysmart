@@ -29,6 +29,13 @@
 # Executables
 *.out
 *.app
+*.bat
 
 # Entorn Variables
 .env
+
+#paths
+.vscode/
+include/
+scripts/
+src/

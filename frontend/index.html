@@ -8,8 +8,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="resources/style.css" />
-    <link rel="shortcut icon" href="resources/Logo.png" />
+    <link rel="stylesheet" href="public/resources/style.css" />
+    <link rel="shortcut icon" href="public/resources/Logo.png" />
   </head>
   <body class="text-dark">
     <div id="flysmart-animation" class="text-center my-5">
@@ -22,13 +22,13 @@
         />
         <image
           id="plane-behind"
-          href="resources/plane.png"
+          href="public/resources/plane.png"
           width="40"
           height="40"
         />
         <image
           id="coneImage"
-          href="resources/cone.png"
+          href="public/resources/cone.png"
           x="90"
           y="110"
           width="70"
@@ -36,7 +36,7 @@
         />
         <image
           id="plane-front"
-          href="resources/plane.png"
+          href="public/resources/plane.png"
           width="40"
           height="40"
           visibility="hidden"
@@ -45,7 +45,7 @@
     </div>
     <div class="container py-5">
       <h1 class="flysmart-heading text-center">
-        <img id="logo-target" src="resources/Icon.png" alt="FlySmart" />
+        <img id="logo-target" src="public/resources/Icon.png" alt="FlySmart" />
         <span>FlySmart</span>
         <small>Encuentra tu mejor ruta</small>
       </h1>
@@ -122,14 +122,14 @@
             target="_blank"
             aria-label="LinkedIn"
           >
-            <img src="resources/linkedin.svg" alt="LinkedIn" />
+            <img src="public/resources/linkedin.svg" alt="LinkedIn" />
           </a>
           <a
             href="https://github.com/Jose47Morales"
             target="_blank"
             aria-label="GitHub"
           >
-            <img src="resources/github.svg" alt="GitHub" />
+            <img src="public/resources/github.svg" alt="GitHub" />
           </a>
         </div>
         <p class="autor">
@@ -139,9 +139,7 @@
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
-    <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
-    <script src="https://unpkg.com/globe.gl"></script>
-    <script src="resources/animation.js"></script>
-    <script src="resources/main.js"></script>
+    <script type="module" src="public/resources/main.js"></script>
+    <script type="module" src="public/resources/animation.js"></script>
   </body>
 </html>
