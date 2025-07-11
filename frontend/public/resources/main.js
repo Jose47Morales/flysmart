@@ -37,10 +37,15 @@ function animate() {
   controls.update();
   renderer.render(scene, camera);
 }
+
 animate();
 
+const BASE_URL = import.meta.env.PROD
+  ? 'https://flysmart-demo.onrender.com'
+  : 'http://localhost:5000'
+
 async function cargarDatosGlobo(){
-    const res = await fetch('http://localhost:5000/api/aeropuertos');
+    const res = await fetch(`${BASE_URL}/api/aeropuertos`);
     const { aeropuertos } = await res.json();
 
     const puntos = aeropuertos.map(a => ({
@@ -86,7 +91,7 @@ async function buscarRuta() {
     }
 
     try {
-      const respuesta = await fetch("http://localhost:5000/buscar", {
+      const respuesta = await fetch(`${BASE_URL}/buscar`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ origen, destino, criterio, fecha }),
