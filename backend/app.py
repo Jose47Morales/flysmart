@@ -5,7 +5,7 @@ from serpapi import GoogleSearch
 from datetime import datetime
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
-import json, os, subprocess
+import json, os, subprocess, stat
 
 
 app = Flask(__name__, static_folder='static')
@@ -116,6 +116,7 @@ def buscar():
 
         exe_path = os.path.abspath("bin/flysmart")
         print("[DEBUG] Ejecutable en:", exe_path)
+        os.chmod(exe_path, os.stat(exe_path).st_mode | stat.S_IEXEC)
 
         if not os.path.exists(exe_path):
             print("[ERROR] Ejecutable no encontrado")
