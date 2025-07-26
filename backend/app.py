@@ -107,7 +107,7 @@ def buscar():
         criterio = req.get('criterio')
         fecha = req.get("fecha") or datetime.today().strftime("%Y-%m-%d")
 
-        exe_path = os.path.abspath("flysmart.exe")
+        exe_path = os.path.abspath("bin/flysmart")
 
         if not origen or not destino or not criterio:
             return jsonify({"error": "Faltan parámetros"}), 400
