@@ -102,12 +102,20 @@ def obtener_aeropuertos():
 def buscar():
     try:
         req = request.json
+        print("[DEBUG] Body recibido:", req)
+
         origen = req.get('origen')
         destino = req.get('destino')
         criterio = req.get('criterio')
         fecha = req.get("fecha") or datetime.today().strftime("%Y-%m-%d")
 
         exe_path = os.path.abspath("bin/flysmart")
+        print("[DEBUG] Ejecutable en:", exe_path)
+
+        if not os.path.exists(exe_path):
+            print("[ERROR] Ejecutable no encontrado")
+            return jsonify({ "error": "No se encontró el ejecutable en Render" }), 500
+
 
         if not origen or not destino or not criterio:
             return jsonify({"error": "Faltan parámetros"}), 400
@@ -169,6 +177,7 @@ def buscar():
             print(f"[ERROR] SerpApi falló: {e}")
             grafo_json = cargar_live_data()
 
+        print("[DEBUG] Ejecutando subprocess...")
         result = subprocess.run( 
             [exe_path, origen, destino, criterio, CACHE_FILE], 
             capture_output=True, 
@@ -176,6 +185,9 @@ def buscar():
             encoding="utf-8", 
             check=False
         )
+        print("[DEBUG] stdout:", result.stdout)
+        print("[DEBUG] stderr:", result.stderr)
+        print("[DEBUG] returncode:", result.returncode)
 
         if result.returncode != 0:
             return jsonify({
@@ -208,6 +220,7 @@ def buscar():
         })
     
     except Exception as e:
+        print("[ERROR] Excepción atrapada en /buscar:", e)
         return jsonify({
             "error": "Error inesperado", 
             "detalles": str(e)
