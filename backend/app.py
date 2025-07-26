@@ -101,8 +101,13 @@ def obtener_aeropuertos():
 @app.route('/buscar', methods=['POST'])
 def buscar():
     try:
-        req = request.json
-        print("[DEBUG] Body recibido:", req)
+        print("[DEBUG] Llegó solicitud a /buscar")
+        print("[DEBUG] Headers:", dict(request.headers))
+        print("[DEBUG] Content-Type:", request.content_type)
+        print("[DEBUG] Data cruda:", request.data)
+
+        req = request.get_json(force=True)
+        print("[DEBUG] JSON recibido:", req)
 
         origen = req.get('origen')
         destino = req.get('destino')
