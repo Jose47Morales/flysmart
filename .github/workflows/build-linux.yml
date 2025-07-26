@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout repository
@@ -21,7 +21,9 @@ jobs:
         run: |
           mkdir -p build
           g++ -std=c++17 -Iinclude src/*.cpp -o build/flysmart
-          chmod +x build/flysmart
+          
+      - name: Set executable permission
+        run: chmod +x build/flysmart
       
       - name: Verify build output
         run: ls -lh build
