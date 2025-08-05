@@ -1,17 +1,26 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye as builder
 
-RUN apt update && apt install -y \
-  build-essential \
-  cmake \
-  git \
-  curl \
-  && apt clean
+RUN apt update && apt install -y build-essential cmake
+
+WORKDIR /app
+
+COPY include ./include
+COPY src ./src
+
+RUN g++ -std=c++17 -Iinclude src/*.cpp -o flysmart
+
+FROM python:3.10-slim
 
 WORKDIR /app
 
 COPY . .
 
-RUN mkdir -p build && \
-    g++ -std=c++17 -Iinclude src/*.cpp -o bin/flysmart
+COPY --from=builder /app/flysmart /app/bin/flysmart
 
-CMD [ "./backend/bin/flysmart" ]
+RUN pip install -r requirements.txt
+
+ENV FLASK_APP=app.py
+
+EXPOSE 5000
+
+CMD ["flask", "run", "--host=0.0.0.0"]

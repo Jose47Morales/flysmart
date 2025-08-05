@@ -5,3 +5,4 @@ services:
     plan: free
     autoDeploy: true
     region: oregon
+    dockerfilePath: backend/Dockerfile
