@@ -1,6 +1,6 @@
 FROM debian:bullseye as builder
 
-RUN apt update && apt insatll -y build-essential cmake
+RUN apt update && apt install -y build-essential cmake
 
 WORKDIR /app
 
