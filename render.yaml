@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: flysmart-demo
+    env: docker
+    plan: free
+    autoDeploy: true
+    region: oregon
