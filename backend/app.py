@@ -13,7 +13,8 @@ CORS(app)
 load_dotenv()
 
 API_KEY = os.environ.get('API_KEY')
-CACHE_FILE = "../data/vuelos_cache.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CACHE_FILE = os.path.join(BASE_DIR, '..', 'data', 'vuelos_cache.json')
 geolocator = Nominatim(user_agent="flysmart-app")
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
 

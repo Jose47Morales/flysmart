@@ -37,6 +37,4 @@ flysmart.exe
 
 #paths
 .vscode/
-include/
 scripts/
-src/

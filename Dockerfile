@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY backend/include ./include
 COPY backend/src ./src
+COPY data ./data
 
 RUN g++ -std=c++17 -Iinclude src/*.cpp -o flysmart
 
@@ -18,6 +19,8 @@ COPY backend .
 COPY --from=builder /app/flysmart /app/bin/flysmart
 
 RUN pip install -r requirements.txt
+
+COPY data ./data
 
 ENV FLASK_APP=app.py
 
