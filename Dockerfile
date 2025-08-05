@@ -4,19 +4,24 @@ RUN apt update && apt install -y build-essential cmake
 
 WORKDIR /app
 
-COPY . .
+COPY backend/include ./include
+COPY backend/src ./src
 
-RUN mkdir -p build && \
-    g++ -std=c++17 -Iinclude backend/src/*.cpp -o backend/bin/flysmart
+RUN g++ -std=c++17 -Iinclude src/*.cpp -o flysmart
 
 FROM python:3.10-slim
 
-RUN pip install -r backend/requirements.txt
-
 WORKDIR /app
 
-COPY --from=builder /app/backend /app/backend
+COPY backend ./backend
+COPY frontend/dist .frontend/dist
+
+COPY --from=builder /app/flysmart /app/backend/bin/flysmart
+
+RUN pip install -r backend/requirements.txt
+
+ENV FLASK_APP=backend/app.py
 
 EXPOSE 5000
 
-CMD ["python", "backend/app.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]
