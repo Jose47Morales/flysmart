@@ -4,8 +4,8 @@ RUN apt update && apt install -y build-essential cmake
 
 WORKDIR /app
 
-COPY include ./include
-COPY src ./src
+COPY backend/include ./include
+COPY backend/src ./src
 
 RUN g++ -std=c++17 -Iinclude src/*.cpp -o flysmart
 
@@ -13,7 +13,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY . .
+COPY backend .
 
 COPY --from=builder /app/flysmart /app/bin/flysmart
 
